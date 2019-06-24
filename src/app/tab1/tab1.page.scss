@@ -1,0 +1,28 @@
+.welcome-card ion-img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+
+.fontSize {
+  font-size: 30px;
+}
+
+.descText {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  color: #BFC3C6;
+  font-size: 16px;
+}
+
+.usernameSection {
+  overflow: hidden;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.profileColor {
+  color: white;
+  --ion-background-color: skyblue !important;
+}

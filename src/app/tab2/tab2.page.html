@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>แชท</ion-title>
+        <ion-buttons slot="end">
+            <ion-icon name="search" (click)="toggle()" class="fontSize"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot="end" padding-start>
+            <ion-icon name="more" class="fontSize"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-searchbar
+*ngIf="toggled"
+[(ngModel)]="someValue"
+(ionInput)="onInput($event)">
+</ion-searchbar>
+
+<ion-content>
+
+    <ion-list no-padding>
+        <div *ngFor="let chat of chatRoom">
+            <ion-item lines="none" (click)="openDetailsWithState(chat)">
+                <div class="borderBottomLine"></div>
+                <div class="listSection" >
+                    <div class="UserimgSection">
+                        <ion-avatar class="chatImage" slot="start">
+                            <ion-img
+                                [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png'">
+                            </ion-img>
+                        </ion-avatar>
+                    </div>
+                    <div class="usernameSection" padding-start padding>
+                        <h5 *ngIf="chat.type !== 'single'">
+                            <ion-icon *ngIf="chat.type === 'group'" name="people" color="medium"></ion-icon>
+                            <ion-icon name="microphone" *ngIf="chat.type === 'broadcast'" color="medium"></ion-icon>
+                            <ion-icon name="md-key" *ngIf="chat.type === 'secret single' || chat.type === 'secret group'"></ion-icon>
+                            {{chat.name}}
+                        </h5>
+                        <h5 *ngIf="chat.type === 'single'">
+                            {{chat.pairchat[0].username}}
+                        </h5>
+                        <p *ngIf="chat.type !== 'secret single'" class="descText" no-margin no-padding>{{chat.last_message}}</p>
+                        <p *ngIf="chat.type === 'secret single'" class="descText" no-margin no-padding>เป็นความลับ</p>
+                       
+                    </div>
+                </div>
+                <div slot="end" class="lastSection">
+                    <ion-note *ngIf="chat.badge || !chat.time" class="sendTime">{{chat.updatedAt | date:'shortTime'}}
+                    </ion-note>
+                    <ion-badge slot="end" class="userBadge" *ngIf="chat.badge">{{chat.badge}}</ion-badge>
+                    <ion-note slot="end" *ngIf="chat.time">{{chat.time}}</ion-note>
+                </div>
+
+            </ion-item>
+        </div>
+
+    </ion-list>
+
+</ion-content>

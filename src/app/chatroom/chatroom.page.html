@@ -1,0 +1,239 @@
+<ion-header (click)="showBar(false)">
+    <ion-toolbar class="header">
+        <ion-buttons slot="start">
+            <ion-back-button color="light" (click)="leaveRoom()"></ion-back-button>
+        </ion-buttons>
+        <ion-title color="light">Chat</ion-title>
+        <ion-buttons slot="end">
+            <ion-icon name="clipboard" slot="icon-only" color="light" (click)="opentimeline()"></ion-icon>
+            <ion-icon name="more" slot="icon-only" color="light"></ion-icon>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-list no-lines no-padding class="accordion-list" *ngFor="let item of items; let i = index">
+    <ion-item tappable detail-none lines="full" [ngClass]="{ 'section-active': item.open, section: !item.open }"
+        (click)="toggleSection(i)">
+        <ion-icon slot="start" name="megaphone"></ion-icon>
+        <ion-label>Annoucement</ion-label>
+        <ion-icon slot="end" item-left name="md-arrow-dropdown" *ngIf="!item.open"></ion-icon>
+        <ion-icon slot="end" item-left name="md-arrow-dropup" *ngIf="item.open"></ion-icon>
+    </ion-item>
+
+    <div *ngIf="item.children && item.open">
+        <ion-list 
+        no-lines 
+        class="child-list" 
+        no-padding
+        no-lines
+        *ngFor="let child of item.children;">
+            <ion-item lines="full" tapplable [ngClass]="{ 'child-active' : child.open, child: !child.open}">
+                    <ion-icon slot="start" name="list-box"></ion-icon>
+                    <p>{{ child.name }}</p>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-list>
+
+<!--<ion-content>
+
+    <div class="message-wrap" *ngIf="sendMessageNow">
+
+        <div *ngFor="let msg of sendMessageNow"
+             class="message"
+             [class.left]=" msg.username !== userData.username "
+             [class.right]=" msg.username === userData.username ">
+            <img class="user-img" [src]="msg.userAvatar" alt="" src="">
+            <div class="msg-detail">
+                <div class="msg-info">
+                    <p>
+                        {{msg.username}}</p>
+                </div>
+                <div class="msg-content">
+                    <span class="triangle"></span>
+                    <p class="line-breaker ">{{msg.data}}</p>
+                    <img *ngIf="msg.img" [src]="'http://localhost:3000/v1/files/getFile/' + msg.img">
+                    <video *ngIf="msg.video" width="192" height="108" controls>
+                        <source [src]="'http://localhost:3000/v1/files/getFile/' + msg.video" type="video/mp4">
+                    </video>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</ion-content>-->
+
+<ion-content (click)="showBar(false)" padding class="contentBg" #content id="chat-parent" overflow-scroll="true"
+    (ionScrollStart)="logScrollStart()" (ionScroll)="logScrolling($event)">
+
+    <div>
+        <div id="chat-container">
+            <div class="message-wrap">
+                <div *ngFor="
+            let msg of sendMessageNow;
+            let i = index;
+            let first = first;
+            let last = last
+          " class="message">
+                    <div class="message-left" *ngIf="msg.username !== userData.username">
+                        <img class="user-img" [src]="
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png'
+              " />
+                        <div class="msg-detail">
+                            <div class="msg-info">
+                                <p>
+                                    {{ msg.username }}
+                                </p>
+                            </div>
+                            <div class="msg-content">
+                                <p class="line-breaker" *ngIf="msg.type === 'text'">{{ msg.data }}</p>
+                                <p class="text-right" style="font-size: 0.5rem">
+                                    {{ msg.updatedAt | date: "shortTime" }}
+                                </p>
+
+                                <img *ngIf="msg.type === 'image'" [src]="
+                    'http://192.168.0.182:3000/v1/files/getThumbnail/' + msg.data
+                  " (click)="viewPhoto(msg.data) " />
+
+                                <!-- <img *ngIf="msg.img" [src]="'http://localhost:3000/v1/files/getFile/' + msg.img"> -->
+                                <video *ngIf="msg.type === 'video'" width="192" height="108" controls>
+                                    <source [src]="
+                      'http://192.168.0.182:3000/v1/files/getFile/' + msg.data
+                    " type="video/mp4" />
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-right" *ngIf="msg.username === userData.username">
+                        <div class="msg-detail">
+                            <div class="msg-info"></div>
+                            <div class="msg-content">
+                                <p class="line-breaker" *ngIf="msg.type === 'text'">{{ msg.data }}</p>
+                                <p class="text-right" style="font-size: 0.5rem">
+                                    {{ msg.updatedAt | date: "shortTime" }}
+                                </p>
+
+                                <img *ngIf="msg.type === 'image'" [src]="
+                    'http://192.168.0.182:3000/v1/files/getThumbnail/' + msg.data
+                  " (click)="viewPhoto(msg.data)" />
+
+                                <video *ngIf="msg.type === 'video'" width="192" height="108" controls>
+                                    <source [src]="
+                      'http://192.168.0.182:3000/v1/files/getFile/' + msg.data
+                    " type="video/mp4" />
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ion-card *ngFor="let i of datapoll">
+        <ion-item lines="full">
+            <img src="https://c.pxhere.com/images/39/93/99bdda9077a7889766656b64db75-1453473.jpg!d">
+        </ion-item>
+
+        <ion-card-header>
+            <ion-card-title>[Poll] {{ i.title }} </ion-card-title>
+            <ion-card-subtitle> {{ i.detail }} </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-item lines="full" routerLink="/chatpoll">
+                <ion-label style="color:darkblue" class="text-center">
+                    Vote now
+                </ion-label>
+            </ion-item>
+
+            <ion-item lines="none" routerLink="/chatpoll">
+                <ion-icon name="checkbox-outline"></ion-icon>
+                <ion-label>Poll</ion-label>
+                <ion-icon name="arrow-dropright"></ion-icon>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+
+<!--<ion-footer no-border [style.height]="showEmojiPicker ? '255px' : '55px'">
+    <div class="input-wrap">
+        &lt;!&ndash; <label class="file">File<input type="file" size="60" > </label> &ndash;&gt;
+        &lt;!&ndash; <ion-input type="file" accept=""></ion-input> &ndash;&gt;
+        <button ion-button clear icon-only item-left>
+            <ion-icon name="happy"></ion-icon>
+        </button>
+        <ion-input #message name="username" type="text" placeholder="Type a message" class="form-control"></ion-input>
+        <button ion-button clear icon-only item-right (click)="sendMessage(message.value)">
+            <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+        </button>
+    </div>
+</ion-footer>-->
+
+<ion-footer class="footer">
+    <ion-toolbar class="footerSections">
+        <div class="containerFooter">
+            <div class="inputConatiner">
+                <ion-input class="inputMessage inputBg ml-3" type="text" placeholder="Type a message" #message
+                    name="username" padding-start (ionFocus)="checkFocus = true">
+                    <ion-icon *ngIf="!show && !checkFocus" name="ios-add-circle-outline" (click)="showBar(true)"
+                        style="font-size: 2rem"></ion-icon>
+                    <ion-icon *ngIf="show" name="ios-close-circle-outline" (click)="showBar(false)"
+                        style="font-size: 2rem"></ion-icon>
+
+                    <ion-icon slot="end" name="image" style="font-size: 2rem" (click)="chooseImage()"
+                        *ngIf='!checkFocus'></ion-icon>
+                    <!-- <ion-icon slot="end" name="attach" style="font-size: 2rem" (click)="chooseFile()" *ngIf='!checkFocus'></ion-icon> -->
+                    <ion-icon class="float-right" name="camera" style="font-size: 2rem" *ngIf='!checkFocus'></ion-icon>
+                    <ion-icon name="ios-arrow-dropright"  style="font-size: 2rem" *ngIf='checkFocus' (click)='checkFocusClick()'></ion-icon>
+                    <ion-button  fill="outline" (click)="viewVideo()">vdo</ion-button>
+                    <ion-button  fill="outline" (click)=removeFile()>rm</ion-button>
+                </ion-input>
+            </div>
+            <div class="send-button-parent">
+                <ion-button *ngIf="img.length == 0" (click)="sendMessage(message.value)" class="sendBtn"
+                    color="primary">
+                    <ion-icon class="sendBtn-icon" name="send" color="light"></ion-icon>
+                </ion-button>
+                <ion-button *ngIf="img.length > 0" (click)="uploadFile()" class="sendBtn" color="primary">
+                    <ion-icon class="sendBtn-icon" name="send" color="light"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+
+        <div class="containerFooter" *ngIf="show">
+            <!-- <div class="inputConatiner">
+
+                    <ion-icon class="sendBtn-icon" name="archive"></ion-icon>
+            </div>
+            <div class="send-button-parent">
+
+              
+                    <ion-icon class="sendBtn-icon" name="send" color="light"></ion-icon>
+               
+            </div> -->
+
+            <ion-grid class="border-top border-dark mt-1">
+                <ion-row>
+                    <ion-col class="text-center" (click)="chooseFile()">
+                        <ion-icon class="sendBtn-icon" name="paper"></ion-icon>
+                        <p>file</p>
+                    </ion-col>
+                    <ion-col class="text-center">
+                        <ion-icon class="sendBtn-icon" name="pin"></ion-icon>
+                        <p>location</p>
+                    </ion-col>
+                    <ion-col class="text-center">
+                        <ion-icon class="sendBtn-icon" name="archive" (click)="openDetailsWithState()"></ion-icon>
+                        <p>poll</p>
+                    </ion-col>
+                    <ion-col class="text-center">
+                        <ion-icon class="sendBtn-icon" name="clipboard" (click)="PostTimeline()"></ion-icon>
+                        <p>Timeline</p>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </ion-toolbar>
+</ion-footer>

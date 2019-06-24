@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>pollhistory</ion-title>
+    <ion-back-button slot="start"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-card *ngFor="let i of datapoll">
+      <ion-card-content>
+        <h1 style="color: gray" class="text-center">Close on {{ i.close_date | date:'mediumDate' }} </h1>
+        <h1 class="text-center">{{ i.title }}</h1>
+        <h2 class="text-center">{{ i.detail }}</h2>
+        <h3 class="text-center">Created By {{ i.CreatePollById }}</h3>
+      </ion-card-content>
+      <ion-col col-6 *ngFor="let e of i.Choices">
+        <div class="ion-text-center">
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png" />
+            </ion-avatar>
+            <ion-note slot="end">{{ e.Users.length }}</ion-note>
+            <ion-label>{{ e.name }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-card>
+  </div>
+</ion-content>

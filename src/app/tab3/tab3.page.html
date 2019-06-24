@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="!searchBarOpened">
+      Timeline
+    </ion-title>
+    <ion-searchbar
+      *ngIf="searchBarOpened"
+      showCancelButton="true"
+      (search)="onSearch($event)"
+      (ionCancel)="searchBarOpened = false"
+    ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-icon
+        name="search"
+        *ngIf="!searchBarOpened"
+        (click)="searchBarOpened = true"
+        float-right
+        class="searchSize"
+      ></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let each of timelines">
+    <div [ngClass]="{'pinComponent': each.pin === 1}">
+      <ion-card-header>
+        <ion-icon name="more" (click)="clickMore(each)" float-right></ion-icon>
+        <ion-card-subtitle>{{ each.refuser?.username }} </ion-card-subtitle>
+        <ion-card-title>{{ each.title }}.</ion-card-title>
+        <ion-card-content>{{ each.detail }}</ion-card-content>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="each.picture">
+        <img style="width: 150px; height: 100px" src="{{ each.picture }}" />
+      </ion-card-content>
+      &nbsp;&nbsp;<ion-icon
+        name="md-heart"
+        (click)="clickLike(each)"
+      ></ion-icon>
+      <ion-badge color="secondary" mode="md">{{
+        each.likes?.length
+      }}</ion-badge>
+      <label (click)="openComment(each)"
+        >&nbsp;<ion-icon name="text" (click)="clickComment(each)"></ion-icon>
+        <ion-badge color="secondary" mode="md">{{
+          each.comment?.length || 0
+        }}</ion-badge>
+      </label>
+      <ion-card-content class="ml-3">
+        <div *ngIf="each.open" class="mb-2">
+          <div class="AllComment" *ngFor="let j of each.comment; let i = index">
+            <ion-card class="m-0 mb-1 p-1"
+              >{{ j.name }} : {{ j.message }}</ion-card
+            >
+            <label
+              class="subButton ml-4"
+              (click)="deleteComment(each, i)"
+              *ngIf="j.name === Myprofile.username"
+              >DELETE</label
+            >
+          </div>
+        </div>
+        <div class="input-wrap row">
+          <ion-input
+            #message
+            name="username"
+            type="text"
+            placeholder="Message"
+            class="form-control col-8"
+          ></ion-input>
+          <button
+            ion-button
+            clear
+            icon-only
+            item-right
+            class="col-2"
+            (click)="sendMessage(message.value, each)"
+          >
+            <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+          </button>
+        </div>
+      </ion-card-content>
+    </div>
+  </ion-card>
+</ion-content>
+
+<!-- fab placed in the center of the content with a list on each side -->
+

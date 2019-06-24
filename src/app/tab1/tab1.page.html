@@ -1,0 +1,225 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Friends {{ friendLength }}
+    </ion-title>
+    <ion-buttons slot="end">
+    <ion-icon name="person-add" class="fontSize"></ion-icon>
+    <ion-badge color="danger">1</ion-badge>
+  </ion-buttons>
+    <ion-buttons slot="end" padding-start>
+      <ion-icon name="search" (click)="toggle()" class="fontSize"></ion-icon>
+  </ion-buttons>
+  <ion-buttons slot="end" padding-start>
+    <ion-icon name="settings" class="fontSize" (click)="setting()"></ion-icon>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-searchbar
+[(ngModel)]="name"
+*ngIf="toggled"
+(ionInput)="onInput($event)"
+(ionCancel)="onCancel($event)">
+</ion-searchbar>
+
+<ion-content>
+  <!-- <ion-searchbar placeholder="Friends {{ friendLength }}"></ion-searchbar> -->
+  <ion-list class="profileColor">
+    <ion-item (click)="myProfileModal(Myprofile)" lines="none" class="profileColor">
+      <ion-avatar slot="start">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png"
+        />
+      </ion-avatar>
+      <div class="usernameSection">
+      <h4>{{ this.Myprofile?.username }}</h4>
+      <p class="descText" style="color: white" no-margin no-padding>Hello Keepcoding</p>
+      </div>
+    </ion-item>
+    <!-- <ion-button fill="outline" (click)="logout()"> logout</ion-button>
+    <ion-button fill="outline" (click)="getImages()"> pick</ion-button>
+    <ion-button fill="outline" (click)="fileUpload()"> upload</ion-button>
+    <ion-button fill="outline" (click)="fileDownload()"> download</ion-button> -->
+  </ion-list>
+
+ <!-- Secret -->
+
+  <ion-list
+    *ngFor="let item of items; let i = index"
+    no-lines
+    no-padding
+    class="accordion-list"
+  >
+  
+    <ion-item
+      tappable
+      (click)="toggleSecret(i)"
+      detail-none
+      [ngClass]="{ 'section-active': item.open, section: !item.open }"
+    >
+      <ion-icon slot="end" item-left name="md-arrow-dropdown" *ngIf="!item.open"></ion-icon>
+      <ion-icon slot="end" item-left name="md-arrow-dropup" *ngIf="item.open"></ion-icon>
+      <ion-label>{{ item.name }}</ion-label> 
+    </ion-item>
+
+    <div *ngIf="item.children && item.open">
+      <ion-list
+        *ngFor="let child of item.children; let j = index"
+        no-lines
+        class="child-list"
+        no-padding>
+        <ion-item
+          tappable
+          (click)="myProfileModal(child)"
+          [ngClass]="{ 'child-active': child.open, child: !child.open }"
+        >
+        <ion-avatar slot="start">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png"
+          />
+        </ion-avatar>
+        <div class="usernameSection">
+        <h6>{{ child.name }}</h6>
+        <p class="descText" style="font-size: 14px;" no-margin no-padding>Young Rob</p>
+      </div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-list>
+
+  <!-- Broadcast -->
+
+  <ion-list
+  *ngFor="let item of item1; let i = index"
+  no-lines
+  no-padding
+  class="accordion-list"
+>
+
+  <ion-item
+    tappable
+    (click)="toggleBroadcast(i)"
+    detail-none
+    [ngClass]="{ 'section-active': item.open, section: !item.open }"
+  >
+    <ion-icon slot="end" item-left name="md-arrow-dropdown" *ngIf="!item.open"></ion-icon>
+    <ion-icon slot="end" item-left name="md-arrow-dropup" *ngIf="item.open"></ion-icon>
+    <ion-label>{{ item.name }}</ion-label> 
+  </ion-item>
+
+  <div *ngIf="item.children && item.open">
+    <ion-list
+      *ngFor="let child of item.children; let j = index"
+      no-lines
+      class="child-list"
+      no-padding>
+      <ion-item
+        tappable
+        (click)="myProfileModal(child)"
+        [ngClass]="{ 'child-active': child.open, child: !child.open }"
+      >
+      <ion-avatar slot="start">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png"
+        />
+      </ion-avatar>
+      <div class="usernameSection">
+      <h6>{{ child.name }}</h6>
+      <p class="descText" style="font-size: 14px;" no-margin no-padding>Young Rob</p>
+    </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-list>
+
+<!-- Event -->
+
+<ion-list
+*ngFor="let item of item2; let i = index"
+no-lines
+no-padding
+class="accordion-list"
+>
+
+<ion-item
+  tappable
+  (click)="toggleEvent(i)"
+  detail-none
+  [ngClass]="{ 'section-active': item.open, section: !item.open }"
+>
+  <ion-icon slot="end" item-left name="md-arrow-dropdown" *ngIf="!item.open"></ion-icon>
+  <ion-icon slot="end" item-left name="md-arrow-dropup" *ngIf="item.open"></ion-icon>
+  <ion-label>{{ item.name }}</ion-label> 
+</ion-item>
+
+<div *ngIf="item.children && item.open">
+  <ion-list
+    *ngFor="let child of item.children; let j = index"
+    no-lines
+    class="child-list"
+    no-padding>
+    <ion-item
+      tappable
+      (click)="myProfileModal(child)"
+      [ngClass]="{ 'child-active': child.open, child: !child.open }"
+    >
+    <ion-avatar slot="start">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png"
+      />
+    </ion-avatar>
+    <div class="usernameSection">
+    <h6>{{ child.name }}</h6>
+    <p class="descText" style="font-size: 14px;" no-margin no-padding>Young Rob</p>
+  </div>
+    </ion-item>
+  </ion-list>
+</div>
+</ion-list>
+
+  <!-- Friends -->
+
+  <ion-list
+    *ngFor="let item of user; let i = index"
+    no-lines
+    no-padding
+    class="accordion-list"
+  >
+  
+    <ion-item
+      tappable
+      (click)="toggleSection(i)"
+      detail-none
+      [ngClass]="{ 'section-active': item.open, section: !item.open }"
+    >
+      <ion-icon slot="end" item-left name="md-arrow-dropdown" *ngIf="!item.open"></ion-icon>
+      <ion-icon slot="end" item-left name="md-arrow-dropup" *ngIf="item.open"></ion-icon>
+      <ion-label>{{ item.name }} {{ friendLength }}</ion-label> 
+    </ion-item>
+
+    <div *ngIf="item.children && item.open">
+      <ion-list
+        *ngFor="let child of item.children; let j = index"
+        no-lines
+        class="child-list"
+        no-padding>
+        <ion-item
+          tappable
+          (click)="myProfileModal(child)"
+          [ngClass]="{ 'child-active': child.open, child: !child.open }"
+        >
+        <ion-avatar slot="start">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Google_Contacts_logo_vector.svg/1200px-Google_Contacts_logo_vector.svg.png"
+          />
+        </ion-avatar>
+        <div class="usernameSection">
+        <h6>{{ child.username }}</h6>
+        <p class="descText" style="font-size: 14px;" no-margin no-padding>Young Rob</p>
+      </div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-list>
+</ion-content>

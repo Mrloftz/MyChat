@@ -1,0 +1,9 @@
+.scrolly{
+    overflow-y: auto;
+    height: 50vh;
+}
+
+.scrollx{
+    overflow-x: auto !important;
+    flex-wrap: nowrap;
+}

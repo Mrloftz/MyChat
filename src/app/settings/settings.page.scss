@@ -1,0 +1,74 @@
+
+
+.card-head{
+    background-color:skyblue;
+    padding-top: 15%;
+    padding-left: 5%;
+    padding-bottom: 10%;
+    // height: calc(60vh - (200px + 56px));
+    
+    // .avatar {
+    //     // width: 360px;
+    //     // height: 240px;
+    //     position: relative;
+    //     margin: 0 auto;
+    
+        img {
+                    
+                    // bottom: calc(-1*(80px + 4px))
+                    height: 95%;
+                    width: 100%;
+                    border-radius:50%;
+                    border: 4px solid rgba(255,255,255,0.4);
+                    -webkit-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+                    box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+        }
+    
+        
+    
+    // .user-meta {
+    //     position:absolute;
+    //     padding-top: 40px;
+    
+    //     .playername {
+    //         font-size: 24px;
+    //         font-weight: 600;
+    //         color: #303940;
+    //     }
+    
+    //     .country {
+    //         font-size: 90%;
+    //         color: #949ea6;
+    //         text-transform: uppercase;
+    //         margin: 0 auto;
+    //     }
+    
+       
+    // }
+    // }
+
+
+}
+
+.card-body {
+    background-color: #ffffff;
+    padding: 15px;
+    // height: calc(100vh - (200px + 56px));
+    overflow: hidden;
+    margin-top:25px;
+
+
+}
+
+
+.small_camera {
+
+    position: absolute;
+    bottom: 3%;
+    /* left: 2%; */
+    margin-left: 55%;
+
+}
+
+

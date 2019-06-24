@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      TODAY
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf='Myprofile'>
+  <div class="poll">
+    <ion-card *ngFor="let i of datapoll" class="choice">
+      <!-- {{checkVote(i)}} -->
+      <div *ngIf='checkVote(i)'>
+        <div>
+          <h3 class="header">{{ i.title }}</h3>
+          <p class="sub-header">{{ i.detail }}</p>
+        </div>
+        <ion-col col-6 *ngFor="let e of i.choice">
+          <div class="ion-text-center">
+            <h5>{{ e.name }}</h5>
+
+            <h5>Vote: {{ e.voteCount }}</h5>
+
+            <ion-button
+              *ngIf="disabledButton"
+              color="success"
+              (click)="sendVote(e)"
+            >
+              submit</ion-button
+            >
+          </div>
+        </ion-col>
+
+        <div>
+          <ion-button
+            expand="full"
+            fill="outline"
+            (click)="updatePoll(i)"
+            color="danger"
+            [disabled]="isDisabled"
+          >
+            Confirm Vote!
+          </ion-button>
+        </div>
+        <!-- <google-chart [data]="pieChartData"></google-chart> -->
+      </div>
+      <div *ngIf='!(checkVote(i))'>
+          <div>
+              <h1 class="header">{{ i.title }}</h1>
+              <p class="sub-header">{{ i.detail }}</p>
+            </div>
+            <ion-col col-6 *ngFor="let e of i.choice">
+              <div class="ion-text-center">
+                <h5>{{ e.name }}</h5>
+                <h5>Vote: {{ e.voteCount }}</h5>
+              </div>
+            </ion-col>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="gotoCreate()"
+      ><ion-icon name="md-create"></ion-icon
+    ></ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

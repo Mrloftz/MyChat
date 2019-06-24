@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center">Create Poll</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="createpollForm">
+    <ion-item class="input-group">
+      <ion-input type="text" formControlName="title" placeholder="Enter a Poll question"></ion-input>
+    </ion-item>
+    <ion-item class="input-group">
+      <ion-input type="text" formControlName="detail" placeholder="Enter Detail"></ion-input>
+    </ion-item>
+
+    <!-- <div>
+      <ion-label>choice:</ion-label>
+      <div *ngFor="let data of number" style="display:block">
+        <ion-input
+          type="text"
+          class="form-control"
+          placeholder="Enter an choice"
+        >
+        </ion-input>
+        <ion-icon name="close-circle-outline"></ion-icon
+      ></div>
+        </div> -->
+
+    <ion-item *ngFor="let input of inputs; let i = index">
+      <ion-input placeholder="Enter an option" (change)="writedata($event.target.value, i)"></ion-input>
+      <ion-button shape="round" (click)="adddata()" [disabled]="!createpollForm.valid">add Choice
+      </ion-button>
+      <ion-icon name="close-circle-outline" (click)="deleatechoice()"></ion-icon>
+
+    </ion-item>
+
+    <!-- <ion-list>
+      <ion-radio-group>
+        <ion-item>
+          <ion-label>Set closing date</ion-label>
+          <ion-radio slot="start" value="cord"></ion-radio>
+          <ion-datetime
+            display-format="DD/MM/YYYY"
+            formControlName="date"
+            min="2019"
+            max="2022"
+            picker-format="DD MMMM YYYY"
+          ></ion-datetime>
+          <ion-icon name="calendar"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Allow new option</ion-label>
+          <ion-radio slot="start" value="duesenberg"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list> -->
+
+    <ion-list>
+      <ion-item lines="none">
+        <ion-label>Set closing date</ion-label>
+        <ion-checkbox slot="start"></ion-checkbox>
+        <ion-datetime display-format="DD/MM/YYYY" formControlName="close_date" min="2019" max="2022"
+          picker-format="DD MMMM YYYY"></ion-datetime>
+        <ion-icon name="calendar"></ion-icon>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="full" (click)="createpoll()" [disabled]="!createpollForm.valid || !(this.inputs.length > 1)">
+      Done</ion-button>
+  </form>
+</ion-content>

@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center">Vote</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="Myprofile">
+  <div class="poll">
+    <!-- <ion-item style="--ion-background-color: grey">
+          <ion-label>
+            Open
+          </ion-label>
+        </ion-item> -->
+    <ion-card *ngFor="let i of datapoll" class="choice p-3">
+      <div *ngIf="checkVote(i)">
+        <div>
+          <ion-card-content>
+            <h1 style="color: red" class="text-center">Close on {{ caltime(i.date) }} days </h1>
+            <h1 class="text-center">{{ i.title }}</h1>
+            <h2 class="text-center">{{ i.detail }}</h2>
+            <h3 class="text-center">Created By {{ i.CreatePollById }} | Allow new option</h3>
+          </ion-card-content>
+        </div>
+        <div>
+          <ion-item lines="none">
+            <ion-icon name="megaphone"></ion-icon>
+            <ion-label> Announce </ion-label>
+          </ion-item>
+        </div>
+
+        <div *ngFor="let e of i.choice">
+          <label class="m-2"><input *ngIf="disabledButton" type="radio" value="{{ e.name }}" name="option"
+              (change)="radioChangeHandler($event)" />
+          </label>
+          <i>{{ e.name }}</i>
+          <i class="ml-3">  VOTE : {{ e.vote }}</i>
+        </div>
+
+        <div>
+          <ion-button size="large" routerLink="/tab2/chatroom" color="medium">
+            Close poll
+          </ion-button>
+          <ion-button [disabled]="radioChangeCheck(i)" size="large" (click)="updatePoll(i)" color="success">
+            Vote
+          </ion-button>
+
+        </div>
+      </div>
+
+      <div *ngIf="!checkVote(i)">
+        <div>
+          <ion-card-content>
+            <h1 style="color: gray" class="text-center">Close on {{ i.close_date | date:'mediumDate' }} </h1>
+            <h1 class="text-center">{{ i.title }}</h1>
+            <h2 class="text-center">{{ i.detail }}</h2>
+            <h3 class="text-center">Created By {{ i.CreatePollById }}</h3>
+          </ion-card-content>
+        </div>
+        <ion-col col-6 *ngFor="let e of i.Choices">
+          <div class="ion-text-center">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png" />
+              </ion-avatar>
+              <ion-note slot="end">{{ e.user.length }}</ion-note>
+              <ion-label>{{ e.name }}</ion-label>
+            </ion-item>
+          </div>
+        </ion-col>
+        <div>
+          <ion-button size="large" (click)="genData(i)" color="success">
+            get chart
+          </ion-button>
+
+        </div>
+
+
+      </div>
+
+    </ion-card>
+
+
+    <!-- <div>
+        <ion-item style="--ion-background-color: grey">
+            <ion-label>
+              Closed!
+            </ion-label>
+          </ion-item>
+    </div> -->
+  </div>
+</ion-content>
+<div *ngIf='title !== ""'>
+  
+    <google-chart [data]="pieChartData" style="width: 100%;"></google-chart>
+
+</div>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="gotoCreate()">
+      <ion-icon name="md-create"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

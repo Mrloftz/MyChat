@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center">TimeLine</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="timelineForm" (ngSubmit)="Submit()">
+    <ion-item class="input-group">
+      <ion-label>title</ion-label>
+      <ion-input type="text" class="form-control" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item class="input-group">
+      <ion-label>detail</ion-label>
+      <ion-input type="text" class="form-control" formControlName="detail"></ion-input>
+    </ion-item><br>
+
+    <img [src]="imageUrl" style="width:150px; height:100px">
+    <ion-input type="file" formControlName="picture" (change)="onFileSelected($event.target.files)" accept="image/*">
+    </ion-input><br>
+
+    <ion-button type="submit"  [disabled]="!timelineForm.valid">Submit</ion-button>
+  </form>
+  <!-- <div id="map_canvas" *ngIf='checkPL'> -->
+  <!-- <ion-button ion-button (click)="getLocation()">Demo</ion-button> -->
+  <!-- </div> -->
+  <h5 class="mx-2">Address: {{address?.formatted_address}}</h5>
+  <!-- <div>lat: {{lat}}</div>
+    <div>lng: {{lng}}</div> -->
+
+  <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+          (dragEnd)="markerDragEnd($event)"></agm-marker>
+      </agm-map> -->
+  <div class="mx-3">
+    <agm-map [latitude]="lat" [zoom]="5" [longitude]="lng" >
+      <agm-marker [latitude]="lat" [longitude]="lng">
+      </agm-marker>
+      <agm-polyline [geodesic]=true [strokeOpacity]=0.6 [strokeColor]="'green'" [strokeWeight] = 3 *ngFor="let point of polygon ">
+        <agm-polyline-point *ngFor="let p of point " [latitude]="p[0]" [longitude]="p[1]">
+        </agm-polyline-point>
+      </agm-polyline>
+    </agm-map>
+  </div>
+</ion-content>
+
+<!-- *ngFor = 'let i in polygon' -->
+
+
+<!-- 
+
+  <agm-marker [latitude]="markers[0].lat" [longitude]="markers[0].lng" [label]="'M'" [markerDraggable]="true" (dragEnd) = "mapClicked($event)" *ngIf='markers?.length > 0' >
+      <agm-info-window>
+          <strong>Map Info</strong>
+        </agm-info-window>
+  </agm-marker>
+  
+<agm-circle [latitude]="markers[0].lat" [longitude]="markers[0].lng" 
+[radius]="50000"
+[fillColor]="'gold'"
+[circleDraggable]="false"
+[editable]="false" *ngIf='markers?.length > 0'>
+</agm-circle> -->
